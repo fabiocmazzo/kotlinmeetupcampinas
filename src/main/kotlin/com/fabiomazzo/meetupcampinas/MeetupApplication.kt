@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories
 
@@ -14,7 +15,7 @@ import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories
  */
 @SpringBootApplication
 @EntityScan("com.fabiomazzo.meetupcampinas.neo4j.model")
-@EnableAutoConfiguration(exclude = arrayOf(DataSourceAutoConfiguration::class))
+@EnableAutoConfiguration(exclude = arrayOf(DataSourceAutoConfiguration::class, DataSourceTransactionManagerAutoConfiguration::class, HibernateJpaAutoConfiguration::class))
 @EnableNeo4jRepositories
 open class MeetupApplication {
     companion object {

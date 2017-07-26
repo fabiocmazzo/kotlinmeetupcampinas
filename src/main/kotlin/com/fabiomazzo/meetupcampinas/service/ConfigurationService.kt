@@ -40,7 +40,7 @@ class ConfigurationService {
             participant.nickname = RandomStringUtils.random(6)
             participant.addMeetup(meetup)
             participant = participantRepository.save(participant)
-            meetup.participantList.add(participant)
+          //  meetup.participantList.add(participant)
         }
 
         meetup = meetupRepository.save(meetup)
