@@ -62,11 +62,13 @@ class MeetupController {
     @PostMapping("/meetup/save")
     fun save(@ModelAttribute("meetup") meetup: Meetup, model: Model, bindingResult : BindingResult): String {
         val savedMeetup  = meetupRepository.save(meetup)
-        model.addAttribute("dialogSpecification", savedMeetup)
+        model.addAttribute("meetup", savedMeetup)
         model.set("allDialogs",getAllDialogSpecification())
         if(bindingResult.hasErrors()) {
+            model.set("error","Erro ao salvar Encontro")
             return EDIT_PAGE
         }
+        model.set("message","Encontro salvo com sucesso")
         return LIST_PAGE
     }
 }
