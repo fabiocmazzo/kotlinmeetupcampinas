@@ -5,6 +5,7 @@ import org.neo4j.ogm.annotation.Index
 import org.neo4j.ogm.annotation.NodeEntity
 import org.neo4j.ogm.annotation.Relationship
 import java.io.Serializable
+import java.util.*
 
 /**
  * Classe que representa o node Intent
@@ -13,12 +14,12 @@ import java.io.Serializable
  */
 @NodeEntity
 data class Participant(@GraphId var id: Long?,
-                        var name: String = "",
+                       var name: String = "",
                        @Index(unique = true)
-                        var code : String = "",
-                        var nickname: String = "",
-                        @Relationship(type = "HAS_BEEN_REGISTERED_IN", direction = Relationship.UNDIRECTED)
-                        var meetupList: MutableList<Meetup> = mutableListOf()) : Serializable {
+                       var code: String = "",
+                       var nickname: String = "",
+                       @Relationship(type = "ENROLLED")
+                       var enrollementList: MutableSet<Enrollment> = hashSetOf()) : Serializable {
 
 
     /**
@@ -30,8 +31,13 @@ data class Participant(@GraphId var id: Long?,
     /**
      *adiciona um Meetup.
      */
-    fun addMeetup(meetup: Meetup) {
-        meetupList.add(meetup)
+    fun enroll(meetup: Meetup) {
+        var enrollment = Enrollment()
+        enrollment.enrolledDate = Date()
+        enrollment.meetup = meetup
+        enrollment.participant = this
+        this.enrollementList.add(enrollment)
+        meetup.enrollementList.add(enrollment)
     }
 
 }

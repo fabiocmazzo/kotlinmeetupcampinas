@@ -58,11 +58,9 @@ class ConfigurationService {
                 participant.name = RandomStringUtils.randomAlphabetic(10)
                 participant.nickname = RandomStringUtils.randomAlphabetic(6)
                 var meetup = meetupRepository.findByCode(meetupsCodes.first(),0)
+                participant.enroll(meetup)
+                participantRepository.save(participant)
                 meetupsCodes.sort()
-                participant.addMeetup(meetup)
-                participant = participantRepository.save(participant)
-                meetup.participantList.add(participant)
-                meetupRepository.save(meetup)
             }
 
         }
