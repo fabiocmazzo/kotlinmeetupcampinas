@@ -28,24 +28,48 @@ class ConfigurationService {
     @Autowired
     lateinit var participantRepository: ParticipantRepository
 
-    fun createTestData() {
-        var meetup = Meetup()
-        meetup.code = RandomStringUtils.random(5)
-        meetup = meetupRepository.save(meetup)
 
-        for(i in 0..40) {
-            var participant = Participant()
-            participant.code = RandomStringUtils.random(5)
-            participant.name = RandomStringUtils.random(10)
-            participant.nickname = RandomStringUtils.random(6)
-            participant.addMeetup(meetup)
-            participant = participantRepository.save(participant)
-          //  meetup.participantList.add(participant)
+    /**
+     *  Apenas para exemplificar function como parametro
+     */
+    private fun runCreateDate(function: () -> Unit) {
+        function.invoke()
+    }
+
+    fun createTestData() {
+
+        runCreateDate {
+
+
+            val meetupsCodes = mutableListOf<String>()
+
+            for (i in 0..10) {
+                var meetup = Meetup()
+                meetup.code = RandomStringUtils.randomAlphabetic(5)
+                meetup = meetupRepository.save(meetup)
+                meetupsCodes.add(meetup.code)
+            }
+
+
+
+            for (i in 0..40) {
+                var participant = Participant()
+                participant.code = RandomStringUtils.randomAlphabetic(5)
+                participant.name = RandomStringUtils.randomAlphabetic(10)
+                participant.nickname = RandomStringUtils.randomAlphabetic(6)
+                var meetup = meetupRepository.findByCode(meetupsCodes.first(),0)
+                meetupsCodes.sort()
+                participant.addMeetup(meetup)
+                participant = participantRepository.save(participant)
+                meetup.participantList.add(participant)
+                meetupRepository.save(meetup)
+            }
+
         }
 
-        meetup = meetupRepository.save(meetup)
 
     }
+
 
     @PostConstruct
     fun init() {

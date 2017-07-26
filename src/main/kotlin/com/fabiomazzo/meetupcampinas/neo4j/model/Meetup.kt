@@ -18,7 +18,7 @@ data class Meetup(@GraphId
                   @Index(unique = true)
                   var code: String = "",
                   @Relationship(type = "HAVE_PARTICIPANT", direction = Relationship.UNDIRECTED)
-                  var participantList: MutableSet<Participant> = mutableSetOf()) : Serializable {
+                  var participantList: MutableList<Participant> = mutableListOf()) : Serializable {
 
     /**
      * Neo4j OGM precisa de um construtor público sem argumentos
