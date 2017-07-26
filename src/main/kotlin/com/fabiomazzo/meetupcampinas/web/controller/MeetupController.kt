@@ -37,7 +37,7 @@ class MeetupController {
     fun editDialogspecification(@PathVariable("id") id: Long, model: Model): String {
         val optMeetup = meetupRepository.findById(id);
         if(optMeetup.isPresent()) {
-            model.addAttribute("dialogSpecification", optMeetup.get())
+            model.addAttribute("meetup", optMeetup.get())
             return EDIT_PAGE
         }
         return LIST_PAGE

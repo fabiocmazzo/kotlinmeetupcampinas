@@ -17,15 +17,13 @@ data class Meetup(@GraphId
                   var id: Long?,
                   @Index(unique = true)
                   var code: String = "",
-                  @Relationship(type="NEXT_MEETUP")
-                  var nextMeetup : NextMeetup?,
-                  @Relationship(type = "HAVE_PARTICIPANTS")
+                  @Relationship(type = "HAVE_PARTICIPANTS", direction = Relationship.OUTGOING)
                   var enrollementList: MutableSet<Enrollment> = hashSetOf()) : Serializable {
 
     /**
      * Neo4j OGM precisa de um construtor público sem argumentos
      */
-    constructor() : this(id = null, nextMeetup = null) {
+    constructor() : this(id = null) {
     }
 
 }

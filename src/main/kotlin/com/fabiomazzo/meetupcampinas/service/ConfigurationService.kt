@@ -2,7 +2,6 @@ package com.fabiomazzo.meetupcampinas.service
 
 
 import com.fabiomazzo.meetupcampinas.neo4j.model.Meetup
-import com.fabiomazzo.meetupcampinas.neo4j.model.NextMeetup
 import com.fabiomazzo.meetupcampinas.neo4j.model.Participant
 import com.fabiomazzo.meetupcampinas.neo4j.repository.MeetupRepository
 import com.fabiomazzo.meetupcampinas.neo4j.repository.ParticipantRepository
@@ -10,9 +9,8 @@ import org.apache.commons.lang3.RandomStringUtils
 import org.jboss.logging.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.*
 import javax.annotation.PostConstruct
-import java.util.Random
-
 
 
 /**
@@ -44,20 +42,14 @@ class ConfigurationService {
 
         runCreateDate {
             val meetupsCodes = mutableListOf<String>()
-            var lastMeetup = Meetup()
-            for (i in 0..100) {
+            for (i in 0..20) {
                 var meetup = Meetup()
                 meetup.code = RandomStringUtils.randomAlphabetic(5)
-                val nextMeetupRelationship = NextMeetup()
-                nextMeetupRelationship.previousMeetup = lastMeetup
-                nextMeetupRelationship.nextMeetup = meetup
-                meetup.nextMeetup =nextMeetupRelationship
-                meetup = meetupRepository.save(meetup)
+                meetupRepository.save(meetup)
                 meetupsCodes.add(meetup.code)
-                lastMeetup = meetup
             }
             val randomGenerator: Random = Random()
-            for (i in 0..4000) {
+            for (i in 0..1000) {
                 var participant = Participant()
                 participant.code = RandomStringUtils.randomAlphabetic(5)
                 participant.name = RandomStringUtils.randomAlphabetic(10)
