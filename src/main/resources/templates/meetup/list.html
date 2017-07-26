@@ -1,0 +1,64 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="template :: head"></head>
+<body>
+
+<div class="wrapper">
+
+    <div th:replace="template :: sidebar"></div>
+
+    <div class="main-panel">
+
+        <nav th:replace="template :: navbar"></nav>
+        <div class="content">
+            <div class="container-fluid">
+
+                <!-- End of card Add Dialog Specification -->
+                <div class="col-lg-12 col-md-12">
+                    <div class="card">
+                        <div th:replace="template :: headercard('List Meetup')"></div>
+                        <div class="content">
+                            <div class="content table-responsive table-full-width">
+                                <a href="#" th:href="@{'/meetup/new'}" class="btn btn-info btn-fill btn-wd"><span th:text="#{add.new}"></span></a>
+                                    <table class="table meetup">
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Code</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!--/*@thymesVar id="allMeetups" type="java.util.List<com.fabiomazzo.meetupcampinas.neo4j.model.Meetup>"*/-->
+                                    <tr th:each="meetup: ${allMeetups}">
+                                        <td th:text="${meetup.id}"></td>
+                                        <td th:text="${meetup.code}"></td>
+                                        <td>
+                                            <a href="#" th:href="@{'/meetup/' + ${meetup.id} + '/edit'}">Edit</a>
+                                            <a href="#" th:href="@{'/meetup/' + ${meetup.id} + '/delete'}">Delete</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <footer th:replace="template :: footer"></footer>
+
+</div>
+</div>
+
+
+</body>
+
+<th:block th:include="template :: scripts"></th:block>
+
+</html>

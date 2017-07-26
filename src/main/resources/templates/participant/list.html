@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="template :: head"></head>
+<body>
+
+<div class="wrapper">
+
+    <div th:replace="template :: sidebar"></div>
+
+    <div class="main-panel">
+
+        <nav th:replace="template :: navbar"></nav>
+        <div class="content">
+            <div class="container-fluid">
+
+
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="template :: footer"></footer>
+
+</div>
+</div>
+</body>
+
+<th:block th:include="template :: scripts"></th:block>
+
+</html>

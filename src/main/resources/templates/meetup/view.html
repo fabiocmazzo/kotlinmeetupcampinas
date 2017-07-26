@@ -1,0 +1,63 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="template :: head"></head>
+<body>
+
+<div class="wrapper">
+
+    <div th:replace="template :: sidebar"></div>
+
+    <div class="main-panel">
+
+        <nav th:replace="template :: navbar"></nav>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="col-lg-12 col-md-12">
+                    <div class="card">
+                        <div th:replace="template :: headercard('Meetup')"></div>
+                        <div class="content">
+                            <!--/*@thymesVar id="meetup" type="com.fabiomazzo.meetupcampinas.neo4j.model.Meetup"*/-->
+                            <form action="#" th:action="@{/meetup/save}" th:object="${meetup}"  method="post">
+                                <input type="hidden" th:field="*{id}"/>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label>Code</label>
+                                            <input type="text" class="form-control border-input" th:field="*{code}"/>
+                                            <label th:if="${#fields.hasErrors('code')}" th:errors="*{code}">Code error message</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label>Participants</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <a href="#" th:href="@{'/meetup'}" class="btn btn-info btn-fill btn-wd">Voltar></a>
+                                    <button type="submit" class="btn btn-info btn-fill btn-wd">Salvar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <footer th:replace="template :: footer"></footer>
+
+</div>
+</div>
+
+
+</body>
+
+<th:block th:include="template :: scripts"></th:block>
+
+</html>
