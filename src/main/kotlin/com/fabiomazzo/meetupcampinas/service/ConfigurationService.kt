@@ -2,6 +2,7 @@ package com.fabiomazzo.meetupcampinas.service
 
 
 import com.fabiomazzo.meetupcampinas.neo4j.model.Meetup
+import com.fabiomazzo.meetupcampinas.neo4j.model.NextMeetup
 import com.fabiomazzo.meetupcampinas.neo4j.model.Participant
 import com.fabiomazzo.meetupcampinas.neo4j.repository.MeetupRepository
 import com.fabiomazzo.meetupcampinas.neo4j.repository.ParticipantRepository
@@ -10,6 +11,9 @@ import org.jboss.logging.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import javax.annotation.PostConstruct
+import java.util.Random
+
+
 
 /**
  * Configuration Service, used as Startup Bean.
@@ -39,35 +43,31 @@ class ConfigurationService {
     fun createTestData() {
 
         runCreateDate {
-
-
             val meetupsCodes = mutableListOf<String>()
-
-            for (i in 0..10) {
+            var lastMeetup = Meetup()
+            for (i in 0..100) {
                 var meetup = Meetup()
                 meetup.code = RandomStringUtils.randomAlphabetic(5)
+                val nextMeetupRelationship = NextMeetup()
+                nextMeetupRelationship.previousMeetup = lastMeetup
+                nextMeetupRelationship.nextMeetup = meetup
+                meetup.nextMeetup =nextMeetupRelationship
                 meetup = meetupRepository.save(meetup)
                 meetupsCodes.add(meetup.code)
+                lastMeetup = meetup
             }
-
-
-
-            for (i in 0..40) {
+            val randomGenerator: Random = Random()
+            for (i in 0..4000) {
                 var participant = Participant()
                 participant.code = RandomStringUtils.randomAlphabetic(5)
                 participant.name = RandomStringUtils.randomAlphabetic(10)
                 participant.nickname = RandomStringUtils.randomAlphabetic(6)
-                var meetup = meetupRepository.findByCode(meetupsCodes.first(),0)
+                var meetup = meetupRepository.findByCode(meetupsCodes.get(randomGenerator.nextInt(meetupsCodes.size)),0)
                 participant.enroll(meetup)
                 participantRepository.save(participant)
-                meetupsCodes.sort()
             }
-
         }
-
-
     }
-
 
     @PostConstruct
     fun init() {
